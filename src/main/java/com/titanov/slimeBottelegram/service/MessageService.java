@@ -1,5 +1,6 @@
 package com.titanov.slimeBottelegram.service;
 
+import com.titanov.slimeBottelegram.data.dto.PetNotificationRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
@@ -44,11 +45,18 @@ public class MessageService {
             EditMessageReplyMarkup msg = EditMessageReplyMarkup.builder()
                     .chatId(chatId)
                     .messageId(messageId)
-                    .inlineMessageId(null)
                     .build();
             bot.execute(msg);
         } catch (TelegramApiException e) {
             log.info("{}.", e.getMessage());
         }
+    }
+
+    public void sendPetNotification(PetNotificationRequest petNotificationRequest) {
+        var petNotificationReadyUserList = petNotificationRequest.getNotificationReadyUserList();
+        petNotificationReadyUserList.forEach(user -> {
+            String text = String.format("%s, ты уже погладил сегодня своего слайма?", user.getFirstName());
+            sendMessage(user.getTelegramId(), text, false);
+        });
     }
 }
