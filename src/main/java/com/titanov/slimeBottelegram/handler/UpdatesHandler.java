@@ -53,7 +53,7 @@ public class UpdatesHandler extends TelegramLongPollingBot {
             String callBackData = update.getCallbackQuery().getData();
             String name = update.getCallbackQuery().getFrom().getUserName();
 
-            log.info("{} Нажал {}", name, callBackData);
+            log.info("{} pressed {}", name, callBackData);
 
             switch (callBackData) {
                 case "attack" : {
